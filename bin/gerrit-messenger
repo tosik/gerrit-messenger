@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require "pathname"
+$:.unshift Pathname.new(__FILE__).realpath.join('../../lib') if $0 == __FILE__
+
+require 'gerrit/messenger'
+
+Gerrit::Messenger::Connector.new('gerrit.example.com', 'username', 12345).stream do |json_str|
+  message = Gerrit::Messenger::Parser.parse(json_str)
+  p message
+end
