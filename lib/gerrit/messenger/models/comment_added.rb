@@ -1,4 +1,6 @@
 class Gerrit::Messenger::Models::CommentAdded
+  include Gerrit::Messenger::Models::CommonEvent
+
   def initialize(json)
     @json = json
   end
@@ -19,20 +21,4 @@ class Gerrit::Messenger::Models::CommentAdded
     end
   end
 
-  def author_name
-    @json['author']['name']
-  end
-
-  def owner_name
-    @json['change']['owner']['name']
-  end
-
-  def subject
-    @json['change']['subject']
-  end
-
-  def url
-    @json['change']['url']
-  end
 end
-
