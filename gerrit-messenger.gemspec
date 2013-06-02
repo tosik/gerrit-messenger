@@ -25,4 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec"
   spec.add_development_dependency "terminal-notifier-guard"
   spec.add_dependency "net-ssh"
+  spec.add_dependency "cinch"
+  spec.add_dependency "cinchize"
 end

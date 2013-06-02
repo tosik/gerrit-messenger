@@ -5,7 +5,27 @@ $:.unshift Pathname.new(__FILE__).realpath.join('../../lib') if $0 == __FILE__
 
 require 'gerrit/messenger'
 
-Gerrit::Messenger::Connector.new('gerrit.example.com', 'username', 12345).stream do |json_str|
-  message = Gerrit::Messenger::Parser.parse(json_str)
-  p message
+require 'optparse'
+require 'cinchize'
+
+
+bot = Cinch::Bot.new do
+  configure do |c|
+    c.nick = 'gerrit-messenger'
+    c.server = "irc.freenode.org"
+    c.channels = ["#gerrit-messenger-bot-test"]
+  end
+
+  trap "SIGINT" do
+    bot.quit
+  end
+end
+
+Thread.new do
+  bot.start
+end
+
+Gerrit::Messenger::Connector.new('localhost', 'tosik', 29418).stream do |json_str|
+  'received'
+  bot.Channel("#gerrit-messenger-bot-test").send Gerrit::Messenger::Parser.parse(json_str)
 end
